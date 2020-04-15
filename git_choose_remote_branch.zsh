@@ -11,7 +11,9 @@ set -o pipefail
 _git_choose_remote_branch () {
   local chosen_ref=$(git for-each-ref --format "%(refname:short)" refs/remotes/origin | grep -v "HEAD$" | fzf)
 
-  if [[ "$?" = "0" ]]; then
+  if [[ "$chosen_ref" = "" ]]; then
+    # Do nothing
+  else
     local branch_name=$(echo $chosen_ref | sed -E 's/[^/]+\///')
 
     local branch_exists=$(git show-ref --verify --quiet "refs/heads/$branch_name")

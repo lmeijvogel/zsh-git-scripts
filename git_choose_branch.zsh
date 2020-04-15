@@ -5,11 +5,11 @@ set -o pipefail
 _git_choose_branch () {
   local chosen_branch=$(recent_checkouts.rb | fzf)
 
-  if [[ "$?" = "0" ]]; then
+  if [[ "$chosen_branch" = "" ]]; then
+    # do nothing
+  else
     local branch_name=$(echo $chosen_branch | awk '{ print $1; }')
     LBUFFER="git checkout $branch_name "
-  else
-    echo "Nothing chosen"
   fi
 }
 
