@@ -10,6 +10,7 @@ I have the following scripts:
 * `git_choose_remote_branch`
 
 * Numbered git status
+* Numbered git log
 
 The `git_choose_*` scripts allow using fzf to switch to local resp. remote branches.
 
@@ -44,7 +45,9 @@ bindkey '\eR' _git_choose_remote_branch
 bindkey '\et' _expand_indices
 ```
 
-Also, add an alias or a keybinding to show the numbered git status:
+Also, add an alias or a keybinding to for the numbered git commands,
+
+for example, for `numbered-git-status.rb`:
 
 ```
 alias gs="eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.rb\`\""
@@ -54,6 +57,9 @@ alias gs="eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.
 # Bind <Esc>s (and alt-s) to show the numbered git status
 bindkey -s '\es' "eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.rb\`\"\n"
 ```
+
+The git log scripts are `numbered-git-log.rb` and `numbered-git-log-all.rb`.
+the first only shows the latest 10 commits, the second shows all commits.
 
 ### Example usage for the numbered git status:
 
