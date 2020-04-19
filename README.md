@@ -12,6 +12,8 @@ I have the following scripts:
 * Numbered git status
 * Numbered git log
 
+* `ga` git add with numbers support.
+
 The `git_choose_*` scripts allow using fzf to switch to local resp. remote branches.
 
 Numbered git status is inspired by scm_breeze and adds numbers to the git status files.
@@ -56,6 +58,9 @@ alias gs="eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.
 
 # Bind <Esc>s (and alt-s) to show the numbered git status
 bindkey -s '\es' "eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.rb\`\"\n"
+
+# Bind _git_add to some thing easier.
+alias ga=_git_add
 ```
 
 The git log scripts are `numbered-git-log.rb` and `numbered-git-log-all.rb`.
