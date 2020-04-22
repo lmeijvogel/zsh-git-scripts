@@ -11,6 +11,7 @@ I have the following scripts:
 
 * Numbered git status
 * Numbered git log
+* Numbered git diff (--cached)
 
 * `ga` git add with numbers support.
 
@@ -43,9 +44,17 @@ Add bindkey statements for all scripts, for example:
 bindkey '\er' _git_choose_branch
 # Bind <Esc>R (and alt-shift-r) to 'git_choose_remote_branch'
 bindkey '\eR' _git_choose_remote_branch
-# Bind <Esc>t (and alt-t) to 'expand_indices'
-bindkey '\et' _expand_indices
+# Bind <Esc>x (and alt-x) to 'expand_indices'
+bindkey '\ex' _expand_indices
 ```
+
+The `choose_branch` functions are intelligent enough that they either:
+
+* Append the chosen branch to the command line when there is already some text, or
+* Fill the command line with `git checkout <branch>` if the command line was empty
+
+In the second case, `choose_remote_branch` will also check whether the chosen
+branch already exists. If not, it creates a local tracking branch.
 
 Also, add an alias or a keybinding to for the numbered git commands,
 
@@ -65,6 +74,13 @@ alias ga=_git_add
 
 The git log scripts are `numbered-git-log.rb` and `numbered-git-log-all.rb`.
 the first only shows the latest 10 commits, the second shows all commits.
+
+Some functions automatically expand any given arguments:
+
+* _git_diff
+* _git_add
+
+So you can just call `_git_diff 1 2` without manually calling `_expand_indices`.
 
 ### Example usage for the numbered git status:
 
