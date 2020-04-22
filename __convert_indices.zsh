@@ -8,7 +8,7 @@ function __convert_indices () {
 
   local indices=()
   if [[ "$@" = *-* ]]; then
-    indices=($(echo "$@" | ruby --disable=gems __expand_range.rb))
+    indices=($(echo "$@" | ruby --disable=gems $ZSH_GIT_SCRIPTS_DIR/__expand_range.rb))
   else
     indices=($@)
   fi

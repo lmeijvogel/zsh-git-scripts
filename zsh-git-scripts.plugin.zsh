@@ -1,7 +1,8 @@
-local current_dir=${0%/*}
-source $current_dir/__convert_indices.zsh
-source $current_dir/git_choose_branch.zsh
-source $current_dir/git_choose_remote_branch.zsh
-source $current_dir/expand_indices.zsh
-source $current_dir/git-add.zsh
-source $current_dir/git-diff.zsh
+export ZSH_GIT_SCRIPTS_DIR=$(/bin/readlink -f ${0%/*})
+
+source $ZSH_GIT_SCRIPTS_DIR/__convert_indices.zsh
+source $ZSH_GIT_SCRIPTS_DIR/git_choose_branch.zsh
+source $ZSH_GIT_SCRIPTS_DIR/git_choose_remote_branch.zsh
+source $ZSH_GIT_SCRIPTS_DIR/expand_indices.zsh
+source $ZSH_GIT_SCRIPTS_DIR/git-add.zsh
+source $ZSH_GIT_SCRIPTS_DIR/git-diff.zsh
