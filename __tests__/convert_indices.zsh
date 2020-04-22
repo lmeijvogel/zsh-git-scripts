@@ -36,3 +36,7 @@ perform_test $input $expected
 input=(3 1-4 6)
 expected=(three one two three four six)
 perform_test $input $expected
+
+input=(--cached 3 1-4 6)
+expected=(--cached three one two three four six)
+perform_test $input $expected

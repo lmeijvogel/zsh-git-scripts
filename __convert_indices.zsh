@@ -6,18 +6,22 @@
 function __convert_indices () {
   local result=()
 
-  # Each space separated argument
-  for x in $@; do
-    # If applicable, expand ranges "1-4" to "1 2 3 4"
-    for y in $(__expand_range "$x"); do
-      local filename=$_git_indices[$y]
+  local indices=()
+  if [[ "$@" = *-* ]]; then
+    indices=($(echo "$@" | ruby --disable=gems __expand_range.rb))
+  else
+    indices=($@)
+  fi
 
-      if [ "$filename" = "" ];then
-        result+=($x)
-      else
-        result+=($filename)
-      fi
-    done
+  # Each space separated argument
+  for x in $indices; do
+    local filename=$_git_indices[$x]
+
+    if [ "$filename" = "" ];then
+      result+=($x)
+    else
+      result+=($filename)
+    fi
   done
 
   echo $result
@@ -25,7 +29,7 @@ function __convert_indices () {
 
 function __expand_range () {
   if [[ "$1" = *-* ]]; then
-    echo $(echo "$1" | ruby -e 'min, max = $stdin.read.strip.split("-") ; puts (min..max).to_a.join(" ")')
+    echo $(echo "$1" | ruby --disable=gems -e 'min, max = $stdin.read.strip.split("-") ; puts (min..max).to_a.join(" ")')
   else
     echo $1
   fi
