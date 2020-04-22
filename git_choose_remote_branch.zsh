@@ -16,9 +16,9 @@ _git_choose_remote_branch () {
   else
     local branch_name=$(echo $chosen_ref | sed -E 's/[^/]+\///')
 
-    local branch_exists=$(git show-ref --verify --quiet "refs/heads/$branch_name")
+    git show-ref --verify --quiet "refs/heads/$branch_name"
 
-    if [[ "$?" = "0" ]]; then
+    if [ "$?" = "0" ]; then
       # Branch already exists locally, just check it out
       LBUFFER="git checkout $branch_name"
     else
