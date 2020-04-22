@@ -16,13 +16,19 @@ _git_choose_remote_branch () {
   else
     local branch_name=$(echo $chosen_ref | sed -E 's/[^/]+\///')
 
-    git show-ref --verify --quiet "refs/heads/$branch_name"
+    if [ "$LBUFFER" == "" ]; then
+      # Check whether the branch already exists locally
+      git show-ref --verify --quiet "refs/heads/$branch_name"
 
-    if [ "$?" = "0" ]; then
-      # Branch already exists locally, just check it out
-      LBUFFER="git checkout $branch_name"
+      if [ "$?" = "0" ]; then
+        # Branch already exists locally, just check it out
+        LBUFFER="git checkout $branch_name"
+      else
+        # Branch does not exist locally, check it out as a tracking branch
+        LBUFFER="git checkout -b $branch_name --track origin/$branch_name"
+      fi
     else
-      LBUFFER="git checkout -b $branch_name --track origin/$branch_name"
+      LBUFFER="$LBUFFER $branch_name"
     fi
   fi
 }

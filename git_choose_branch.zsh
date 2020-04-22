@@ -9,7 +9,12 @@ _git_choose_branch () {
     # do nothing
   else
     local branch_name=$(echo $chosen_branch | awk '{ print $1; }')
-    LBUFFER="git checkout $branch_name "
+
+    if [ "$LBUFFER" == "" ]; then
+      LBUFFER="git checkout $branch_name "
+    else
+      LBUFFER="$LBUFFER $branch_name"
+    fi
   fi
 }
 
