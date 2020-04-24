@@ -6,7 +6,7 @@ _expand_indices () {
   # to work with word boundaries (e.g. it should not change '11' when I only want
   # to replace '1')
   for index git_path in ${(kv)_git_indices}; do
-    sed_expressions+=" -e s|\\b$index\\b|$git_path|"
+    sed_expressions+=" -e s|\\b$index\\b|$git_path|g"
     any_index_found=1
   done
 
