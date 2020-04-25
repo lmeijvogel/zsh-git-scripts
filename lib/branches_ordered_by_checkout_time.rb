@@ -9,12 +9,16 @@ LINE_REGEX = %r[([0-9a-f]+) HEAD@{([^}]+)}: checkout: moving from [a-zA-Z0-9_\-\
 def main
   checkouts = get_checkouts
 
-  branch_width = checkouts.map { |checkout| checkout.branch.length }.max
+  not_checked_out_branches = get_branches - checkouts
+
+  branches = get_checkouts + not_checked_out_branches
+
+  branch_width = branches.map { |checkout| checkout.name.length }.max
 
   # Reverse first and second entry since we'll never want to switch to the current branch
-  checkouts = checkouts.values_at(1, 0) + checkouts[2..-1] if checkouts.length > 1
+  branches = branches.values_at(1, 0) + branches[2..-1] if branches.length > 1
 
-  puts checkouts.map { |checkout| checkout.to_displayable(branch_width) }
+  puts branches.map { |checkout| checkout.to_displayable(branch_width) }
 end
 
 def get_checkouts
@@ -22,22 +26,48 @@ def get_checkouts
                    `git reflog show --date=iso --grep-reflog="checkout: moving"`
                      .each_line
                      .map { |line| Checkout.new(line) }
-                     .uniq(&:branch)
+                     .uniq(&:name)
                  end
 end
 
-class Checkout
-  attr_reader :date, :branch
+def get_branches
+  @not_checked_out_branches ||= begin
+                                  `git for-each-ref refs/heads --format "%(refname:short)"`
+                                    .each_line
+                                    .map { |line| Branch.new(line) }
+                                end
+end
+
+class Branch
+  attr_reader :name
+
+  def initialize(name)
+    @name = name.strip
+  end
+
+  def to_displayable(branch_width)
+    format("%-#{branch_width}s", @name)
+  end
+
+  def eql?(other)
+    return false if !(other.is_a? Branch)
+
+    return other.name == self.name
+  end
+end
+
+class Checkout < Branch
+  attr_reader :date
 
   def initialize(line)
     matches = line.match(LINE_REGEX)
 
+    super(matches[3])
     @date = DateTime.parse(matches[2])
-    @branch = matches[3]
   end
 
   def to_displayable(branch_width)
-    format("%-#{branch_width}s (%s)", @branch, format_date(@date))
+    format("%-#{branch_width}s (%s)", @name, format_date(@date))
   end
 
   private
