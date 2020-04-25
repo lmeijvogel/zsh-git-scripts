@@ -21,7 +21,7 @@ class CreateShellVariables
 
   def clear_current_vars
     puts "unset _git_indices"
-    puts "declare -A _git_indices"
+    puts "declare -Ag _git_indices"
   end
 
   def show_list(items_with_indices)

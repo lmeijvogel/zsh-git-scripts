@@ -8,7 +8,7 @@ function __convert_indices () {
 
   local indices=()
   if [[ "$@" = *-* ]]; then
-    indices=($(echo "$@" | ruby --disable=gems $ZSH_GIT_SCRIPTS_DIR/__expand_range.rb))
+    indices=($(echo "$@" | ruby --disable=gems $ZSH_GIT_SCRIPTS_DIR/lib/__expand_range.rb))
   else
     indices=($@)
   fi
@@ -25,12 +25,4 @@ function __convert_indices () {
   done
 
   echo $result
-}
-
-function __expand_range () {
-  if [[ "$1" = *-* ]]; then
-    echo $(echo "$1" | ruby --disable=gems -e 'min, max = $stdin.read.strip.split("-") ; puts (min..max).to_a.join(" ")')
-  else
-    echo $1
-  fi
 }

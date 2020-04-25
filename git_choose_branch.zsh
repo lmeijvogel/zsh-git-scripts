@@ -3,7 +3,7 @@
 set -o pipefail
 
 _git_choose_branch () {
-  local chosen_branch=$(ruby $ZSH_GIT_SCRIPTS_DIR/recent_checkouts.rb | fzf)
+  local chosen_branch=$(ruby $ZSH_GIT_SCRIPTS_DIR/lib/branches_ordered_by_checkout_time.rb | fzf)
 
   if [[ "$chosen_branch" = "" ]]; then
     # do nothing
