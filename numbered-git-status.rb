@@ -2,7 +2,7 @@ require 'shellwords'
 
 def main(human_readable:)
   puts "unset _git_indices"
-  puts "declare -A _git_indices"
+  puts "declare -Ag _git_indices"
   puts
   status = `git status`
 
