@@ -1,12 +1,10 @@
-# Note: This is not called 'ga' because I don't want to interfere
-# with user's default aliases.
-function _git_add () {
+function _zsh_git_scripts_git_add () {
   if [ ${#@} = 0 ]; then
     echo "No arguments"
     return
   fi
 
-  local params=($(__convert_indices "$@"))
+  local params=($(__zsh_git_scripts_convert_indices "$@"))
 
   echo "Adding $params"
   git add $params

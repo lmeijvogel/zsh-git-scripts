@@ -6,8 +6,8 @@ These are scripts that make it easier (for me :D) to use git.
 
 I have the following scripts:
 
-* `git_choose_branch`
-* `git_choose_remote_branch`
+* `_zsh_git_scripts_git_choose_branch`
+* `_zsh_git_scripts_git_choose_remote_branch`
 
 * Numbered git status
 * Numbered git log
@@ -15,7 +15,7 @@ I have the following scripts:
 
 * `ga` git add with numbers support.
 
-The `git_choose_*` scripts allow using fzf to switch to local resp. remote branches.
+The `_zsh_git_scripts_git_choose_*` scripts allow using fzf to switch to local resp. remote branches.
 
 Numbered git status is inspired by scm_breeze and adds numbers to the git status files.
 
@@ -41,11 +41,11 @@ Add bindkey statements for all scripts, for example:
 
 ```
 # Bind <Esc>r (and alt-r) to 'git_choose_branch'
-bindkey '\er' _git_choose_branch
+bindkey '\er' __zsh_git_scripts_git_choose_branch
 # Bind <Esc>R (and alt-shift-r) to 'git_choose_remote_branch'
-bindkey '\eR' _git_choose_remote_branch
+bindkey '\eR' __zsh_git_scripts_git_choose_remote_branch
 # Bind <Esc>x (and alt-x) to 'expand_indices'
-bindkey '\ex' _expand_indices
+bindkey '\ex' __zsh_git_scripts_expand_indices
 ```
 
 The `choose_branch` functions are intelligent enough that they either:
@@ -69,7 +69,7 @@ alias gs="eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.
 bindkey -s '\es' "eval \"\`ruby $ZSH_CUSTOM/plugins/zsh-git-scripts/numbered-git-status.rb\`\"\n"
 
 # Bind _git_add to some thing easier.
-alias ga=_git_add
+alias ga=__zsh_git_scripts_git_add
 ```
 
 The git log scripts are `numbered-git-log.rb` and `numbered-git-log-all.rb`.
@@ -80,7 +80,7 @@ Some functions automatically expand any given arguments:
 * _git_diff
 * _git_add
 
-So you can just call `_git_diff 1 2` without manually calling `_expand_indices`.
+So you can just call `__zsh_git_scripts_git_diff 1 2` without manually calling `__zsh_git_scripts_expand_indices`.
 
 ### Example usage for the numbered git status:
 

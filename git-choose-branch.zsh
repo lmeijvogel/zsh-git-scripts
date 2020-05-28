@@ -2,7 +2,7 @@
 
 set -o pipefail
 
-_git_choose_branch () {
+_zsh_git_scripts_git_choose_branch () {
   local chosen_branch=$(ruby $ZSH_GIT_SCRIPTS_DIR/lib/branches_ordered_by_checkout_time.rb | fzf)
 
   if [[ "$chosen_branch" = "" ]]; then
@@ -18,5 +18,4 @@ _git_choose_branch () {
   fi
 }
 
-zle -N _git_choose_branch{,}
-bindkey '\er' _git_choose_branch
+zle -N _zsh_git_scripts_git_choose_branch{,}

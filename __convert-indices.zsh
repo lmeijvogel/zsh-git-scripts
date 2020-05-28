@@ -3,7 +3,7 @@
 #
 # Remember to split the result when passing the
 # result into a shell command.
-function __convert_indices () {
+function __zsh_git_scripts_convert_indices () {
   local result=()
 
   local indices=()

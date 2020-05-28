@@ -1,4 +1,4 @@
-_expand_indices () {
+_zsh_git_scripts_expand_indices () {
   local sed_expressions=""
   local any_index_found=0
 
@@ -15,4 +15,4 @@ _expand_indices () {
   fi
 }
 
-zle -N _expand_indices{,}
+zle -N _zsh_git_scripts_expand_indices{,}

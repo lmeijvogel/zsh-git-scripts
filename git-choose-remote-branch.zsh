@@ -8,7 +8,7 @@
 
 set -o pipefail
 
-_git_choose_remote_branch () {
+_zsh_git_scripts_git_choose_remote_branch () {
   local chosen_ref=$(git for-each-ref --format "%(refname:short)" refs/remotes/origin | grep -v "HEAD$" | fzf)
 
   if [[ "$chosen_ref" = "" ]]; then
@@ -33,5 +33,4 @@ _git_choose_remote_branch () {
   fi
 }
 
-zle -N _git_choose_remote_branch{,}
-bindkey '\eR' _git_choose_remote_branch
+zle -N _zsh_git_scripts_git_choose_remote_branch{,}
