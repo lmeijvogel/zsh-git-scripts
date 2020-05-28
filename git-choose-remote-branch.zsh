@@ -28,7 +28,7 @@ _zsh_git_scripts_git_choose_remote_branch () {
         LBUFFER="git checkout -b $branch_name --track origin/$branch_name"
       fi
     else
-      LBUFFER="$LBUFFER $branch_name"
+      LBUFFER="$LBUFFER origin/$branch_name"
     fi
   fi
 }
