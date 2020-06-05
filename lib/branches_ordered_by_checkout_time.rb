@@ -9,7 +9,7 @@ LINE_REGEX = %r[([0-9a-f]+) HEAD@{([^}]+)}: checkout: moving from [a-zA-Z0-9_\-\
 def main
   checkouts = get_checkouts
 
-  not_checked_out_branches = get_branches - checkouts
+  not_checked_out_branches = existing_branches - checkouts
 
   branches = get_checkouts + not_checked_out_branches
 
@@ -23,19 +23,23 @@ end
 
 def get_checkouts
   @checkouts ||= begin
-                   `git reflog show --date=iso --grep-reflog="checkout: moving"`
-                     .each_line
-                     .map { |line| Checkout.new(line) }
-                     .uniq(&:name)
+                   all_checkouts ||= begin
+                                       `git reflog show --date=iso --grep-reflog="checkout: moving"`
+                                         .each_line
+                                         .map { |line| Checkout.new(line) }
+                                         .uniq(&:name)
+                                     end
+
+                   all_checkouts & existing_branches
                  end
 end
 
-def get_branches
-  @not_checked_out_branches ||= begin
-                                  `git for-each-ref refs/heads --format "%(refname:short)"`
-                                    .each_line
-                                    .map { |line| Branch.new(line) }
-                                end
+def existing_branches
+  @existing_branches ||= begin
+                      `git for-each-ref refs/heads --format "%(refname:short)"`
+                        .each_line
+                        .map { |line| Branch.new(line) }
+                    end
 end
 
 class Branch
