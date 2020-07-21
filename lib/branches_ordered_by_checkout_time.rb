@@ -7,11 +7,9 @@ DAYS = %w[sunday monday tuesday wednesday thursday friday saturday]
 LINE_REGEX = %r[([0-9a-f]+) HEAD@{([^}]+)}: checkout: moving from [a-zA-Z0-9_\-\/\.]+ to ([a-zA-Z0-9_\-\/\.]+)]
 
 def main
-  checkouts = get_checkouts
-
   not_checked_out_branches = existing_branches - checkouts
 
-  branches = get_checkouts + not_checked_out_branches
+  branches = checkouts + not_checked_out_branches
 
   branch_width = branches.map { |checkout| checkout.name.length }.max
 
@@ -21,7 +19,7 @@ def main
   puts branches.map { |checkout| checkout.to_displayable(branch_width) }
 end
 
-def get_checkouts
+def checkouts
   @checkouts ||= begin
                    all_checkouts ||= begin
                                        `git reflog show --date=iso --grep-reflog="checkout: moving"`
@@ -57,6 +55,10 @@ class Branch
     return false if !(other.is_a? Branch)
 
     return other.name == self.name
+  end
+
+  def hash
+    "Branch #{name}".hash
   end
 end
 
