@@ -15,7 +15,7 @@ def main(human_readable:)
   status.each_line.each_with_index do |line|
     line.rstrip!
     if line.start_with?(/\s+/)
-      space_before_filename = line.rindex(/\s/)
+      space_before_filename = line.rindex(/\s[^(]/)
 
       start_of_line = line[0..space_before_filename]
       filename = line[space_before_filename+1..-1]
