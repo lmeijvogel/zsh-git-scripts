@@ -6,5 +6,4 @@
 # `--patch` will perform a `git add --patch`, as expected.
 git status --porcelain \
   | fzf -m --preview "git diff --color=always {-1}" \
-  | awk '// { print $2 }' \
-  | xargs -t -o git add $@
+  | awk '// { print $2 }'
