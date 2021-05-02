@@ -1,4 +1,8 @@
+#!/usr/bin/env ruby
+
 require 'shellwords'
+
+PARENTHESIZED_STATEMENTS_REGEX = /\([^\)]+\)/
 
 def main(human_readable:)
   puts "unset _git_indices"
@@ -15,12 +19,17 @@ def main(human_readable:)
   status.each_line.each_with_index do |line|
     line.rstrip!
     if line.start_with?(/\s+/)
-      space_before_filename = line.rindex(/\s[^(]/)
+      parenthesized_statements = line[PARENTHESIZED_STATEMENTS_REGEX]
 
-      start_of_line = line[0..space_before_filename]
-      filename = line[space_before_filename+1..-1]
+      line_without_parenthesized_statements = line.gsub(PARENTHESIZED_STATEMENTS_REGEX, "")
 
-      processed_line = format("%-13s%5s %s", start_of_line, "[#{index}]", filename)
+      space_before_filename = line_without_parenthesized_statements.rindex(/\s[^(]/)
+
+      start_of_line = line_without_parenthesized_statements[0..space_before_filename]
+      filename = line_without_parenthesized_statements[space_before_filename+1..-1]
+
+      filename_to_display = "#{filename} #{parenthesized_statements}"
+      processed_line = format("%-13s%5s %s", start_of_line, "[#{index}]", filename_to_display)
 
       puts "_git_indices[#{index}]=#{filename}"
       if human_readable
