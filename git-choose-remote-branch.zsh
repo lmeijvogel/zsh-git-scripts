@@ -4,7 +4,7 @@
 
 # E.g.:
 #   user chooses `origin/team/feature-branch`
-#   => `git checkout team/feature-branch`
+#   => `git switch team/feature-branch`
 
 set -o pipefail
 
@@ -22,10 +22,10 @@ _zsh_git_scripts_git_choose_remote_branch () {
 
       if [ "$?" = "0" ]; then
         # Branch already exists locally, just check it out
-        LBUFFER="git checkout $branch_name"
+        LBUFFER="git switch $branch_name"
       else
         # Branch does not exist locally, check it out as a tracking branch
-        LBUFFER="git checkout -b $branch_name --track origin/$branch_name"
+        LBUFFER="git switch --create $branch_name --track origin/$branch_name"
       fi
     else
       LBUFFER="$LBUFFER origin/$branch_name"

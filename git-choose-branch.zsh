@@ -11,7 +11,7 @@ _zsh_git_scripts_git_choose_branch () {
     local branch_name=$(echo $chosen_branch | awk '{ print $1; }')
 
     if [ "$LBUFFER" == "" ]; then
-      LBUFFER="git checkout $branch_name "
+      LBUFFER="git switch $branch_name "
     else
       LBUFFER="$LBUFFER $branch_name"
     fi
